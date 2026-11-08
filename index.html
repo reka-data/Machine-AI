@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MachinAI - Smart Machine Health Monitoring</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#1e1e1e;display:flex;justify-content:center;padding:20px}
+.phone{width:390px;background:#3e5342;border-radius:28px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#fff;position:sticky;top:0;z-index:10}
+.logo{font-weight:800;color:#111;display:flex;gap:6px;align-items:center}
+.logo b{color:#00b86a}
+.nav-links{display:flex;gap:12px;font-size:11px;color:#666;cursor:pointer}
+.nav-links span:hover{color:#00b86a}
+.hero{background:linear-gradient(135deg,#e8f8ec,#f3fdf5);padding:22px 18px;display:flex;gap:12px}
+.hero-text h1{font-size:23px;font-weight:800;line-height:1.15;color:#111}
+.hero-text h1 span{color:#00b86a}
+.hero-text p{font-size:11.5px;color:#6b7280;margin:10px 0 14px;line-height:1.5}
+.btn{padding:9px 18px;border-radius:22px;border:none;font-weight:600;font-size:11px;cursor:pointer;transition:.2s}
+.btn-green{background:#0ed98b;color:#fff}
+.btn-green:hover{background:#0bc57e}
+.btn-white{background:#fff;border:1px solid #e5e7eb}
+.btn:active{transform:scale(.95)}
+.hero-img{width:135px;height:155px;border-radius:18px;object-fit:cover}
+.section{padding:22px 18px;background:#f3fdf5;text-align:center}
+.section h2{font-size:17px;font-weight:800;line-height:1.3}
+.features{display:flex;gap:8px;margin-top:14px}
+.f-box{background:#fff;padding:12px 8px;border-radius:14px;flex:1;font-size:10px;color:#6b7280;cursor:pointer}
+.f-box b{display:block;color:#111;font-size:11px;margin:6px 0 3px}
+.f-box:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.card{height:112px;border-radius:14px;overflow:hidden;position:relative;background:#ccc;background-size:cover;background-position:center;cursor:pointer}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent)}
+.card span{position:absolute;bottom:8px;left:8px;right:8px;background:#fff;font-size:9px;padding:5px 10px;border-radius:20px;z-index:1;font-weight:600}
+.light-green{background:#e6f9ed;padding:20px 18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.m-box{background:#fff;padding:12px;border-radius:12px;text-align:left;font-size:10px;color:#6b7280;border:1px solid #eef2f7;cursor:pointer}
+.m-box b{color:#111;display:flex;gap:6px;font-size:11px;margin-bottom:4px}
+.stats{background:#102a22;color:#fff;display:flex;justify-content:space-between;padding:14px;border-radius:14px;margin-top:14px;text-align:center}
+.stats b{color:#3cff9c;font-size:15px;display:block}
+.stats span{font-size:10px;color:#9bb8ad}
+.dark{background:#0a221a;margin:16px;border-radius:18px;padding:20px;color:#fff;overflow:hidden}
+.sim-top{display:flex;justify-content:space-between;gap:12px}
+.wave{margin:14px 0;height:40px;background:#132e26;border-radius:10px;display:flex;align-items:center;gap:3px;padding:0 10px}
+.wave div{width:3px;background:#0ed98b;border-radius:2px;animation:wave 1s infinite}
+@keyframes wave{0%,100%{height:8px}50%{height:30px}}
+.result{background:#c07f7f;color:#111;padding:12px;border-radius:12px;font-size:11px;width:135px}
+.result .red{color:red;font-weight:700;font-size:9px}
+.faq{padding:20px 18px;background:#f3fdf5}
+.faq h3{text-align:center;font-size:14px;margin-bottom:12px}
+details{background:#fff;padding:12px 14px;border-radius:12px;margin-bottom:8px;font-size:11px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+summary{list-style:none;font-weight:600;display:flex;justify-content:space-between}
+summary::after{content:'+'}
+details[open] summary::after{content:'-'}
+.cta{background:linear-gradient(135deg,#0f2a22,#1a4d3a);margin:0 0;padding:22px 18px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:20px;font-size:12px;display:none;z-index:99}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);justify-content:center;align-items:center;z-index:100}
+.modal-box{background:#fff;width:90%;max-width:360px;border-radius:16px;padding:20px;text-align:center}
+</style>
+</head>
+<body>
+<div class="phone" id="top">
+<nav>
+  <div class="logo">⚙️ Machin<span style="color:#00b86a">AI</span></div>
+  <div class="nav-links">
+    <span onclick="scrollToId('top')">Home</span>
+    <span onclick="scrollToId('features')">About</span>
+    <span onclick="scrollToId('services')">Features</span>
+    <span onclick="scrollToId('faq')">FAQ</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <h1>Smart Machine<br><span>Health Monitoring</span></h1>
+    <p>Listen to your machine, detect faults early using AI, and prevent costly breakdowns.</p>
+    <button class="btn btn-green" onclick="scrollToId('sim')">Start Analysis</button>
+    <button class="btn btn-white" onclick="openDemo()">Watch Demo</button>
+  </div>
+  <img class="hero-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400">
+</div>
+
+<div class="section" id="features">
+  <p style="font-size:10px;color:#00b86a;font-weight:700;margin-bottom:4px">Why Choose MachinAI?</p>
+  <h2>We Keep Your Machines<br>Running Smoothly</h2>
+  <div class="features">
+    <div class="f-box" onclick="toast('Early Fault Detection Active')"><div style="font-size:18px">🔍</div><b>Early Fault Detection</b>Detect issues before they cause damage</div>
+    <div class="f-box" onclick="toast('Downtime Reduced by 70%')"><div style="font-size:18px">⏱️</div><b>Reduce Downtime</b>Prevent failures with AI monitoring</div>
+    <div class="f-box" onclick="toast('Save up to 40% on maintenance')"><div style="font-size:18px">💰</div><b>Save Costs</b>Only maintain when needed</div>
+  </div>
+</div>
+
+<div class="section" id="services" style="padding-top:0">
+  <p style="font-size:10px;color:#00b86a;font-weight:700">Our Service</p>
+  <h2 style="font-size:15px">Smart Analysis. Clear Results.</h2>
+  <div class="cards">
+    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=400')" onclick="toast('Audio Analysis: Click Start Analysis')"><span>Analyze Machine Audio</span></div>
+    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1581092580497-e0d23cbdf435?w=400')" onclick="toast('AI detects failures in <5 sec')"><span>Detect Failure Early</span></div>
+    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400')" onclick="toast('Instant Report Generated')"><span>Fast Detection Report</span></div>
+    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400')" onclick="toast('Get Actionable Insights')"><span>Actionable Advice</span></div>
+  </div>
+</div>
+
+<div class="light-green">
+  <h3 style="font-size:14px;font-weight:800;line-height:1.3">Designed for Every Machine<br>& Factory Environment</h3>
+  <div class="grid2">
+    <div class="m-box" onclick="toast('Motors & Pumps Supported')"><b>⚙️ Motors & Pumps</b>Ideal for rotating machines</div>
+    <div class="m-box" onclick="toast('Pumps & Compressors Supported')"><b>🏭 Pumps & Compressors</b>Monitor fluid systems</div>
+    <div class="m-box" onclick="toast('Turbines Supported')"><b>🔧 Turbines & Power</b>Prevent energy downtime</div>
+    <div class="m-box" onclick="toast('Conveyor & Robots Supported')"><b>🤖 Conveyor Systems</b>Keep automation running</div>
+  </div>
+  <div class="stats">
+    <div><b id="c1">98.4%</b><span>Accuracy</span></div>
+    <div><b>< 5 Sec</b><span>Analysis</span></div>
+    <div><b>Zero</b><span>Hardware</span></div>
+    <div><b>24/7</b><span>Monitoring</span></div>
+  </div>
+</div>
+
+<div class="dark" id="sim">
+  <p style="font-size:10px;color:#3cff9c">Try MachinAI Simulator</p>
+  <h3 style="font-size:16px;margin:6px 0">Experience AI Fault Detection</h3>
+  <p style="font-size:10px;color:#8fb8a8">Upload machine sound, AI will analyze it instantly.</p>
+  <div class="wave" id="wave"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <div class="sim-top">
+    <div>
+      <button class="btn btn-green" onclick="runSim()">🎙️ Start Simulator</button>
+      <p id="status" style="font-size:10px;margin-top:8px;color:#3cff9c">Ready to analyze</p>
+    </div>
+    <div class="result" id="result">
+      <b>Bearing Outer Race Fault</b><br>
+      <span class="red">● High Risk - 94%</span><br>
+      <span style="font-size:9px;color:#666">Recommended: Inspect in 24h</span>
+    </div>
+  </div>
+</div>
+
+<div class="faq" id="faq">
+  <h3>Frequently Asked Questions</h3>
+  <details><summary>Is MachinAI compatible with all machines?</summary><p style="margin-top:8px;color:#666">Yes, supports motors, pumps, turbines, compressors and conveyors.</p></details>
+  <details><summary>How accurate is the AI analysis?</summary><p style="margin-top:8px;color:#666">98.4% accuracy trained on 10,000+ machine sounds.</p></details>
+  <details><summary>Can I use it on my mobile phone?</summary><p style="margin-top:8px;color:#666">Yes, fully responsive - works on mobile, tablet and desktop.</p></details>
+  <details><summary>Is there a free plan?</summary><p style="margin-top:8px;color:#666">Yes! Free trial with 5 analyses per month.</p></details>
+</div>
+
+<div class="cta">
+  <h3 style="font-size:15px;font-weight:700">Take Control of Your<br>Machine's Health</h3>
+  <button class="btn btn-green" onclick="scrollToId('sim')">Start Now →</button>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="demoModal">
+  <div class="modal-box">
+    <h3>How MachinAI Works</h3>
+    <p style="font-size:12px;color:#666666;margin:12px 0">AI listens to machine vibration and detects faults 10x faster than human.</p>
+    <div style="background:#111;color:#0ed98b;padding:20px;border-radius:10px;font-family:monospace;font-size:11px;margin:10px 0">▶️ Demo: [Machine Audio] → AI → Report in 3.2s</div>
+    <button class="btn btn-green" onclick="closeDemo()">Close</button>
+  </div>
+</div>
+
+<script>
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function toast(msg){
+  let t=document.getElementById('toast');
+  t.innerText=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none',2500);
+}
+function openDemo(){document.getElementById('demoModal').style.display='flex'}
+function closeDemo(){document.getElementById('demoModal').style.display='none'}
+
+function runSim(){
+  let status=document.getElementById('status');
+  let wave=document.getElementById('wave');
+  let result=document.getElementById('result');
+  status.innerText='🔴 Listening...';
+  result.style.opacity='0.3';
+  let count=0;
+  let interval=setInterval(()=>{
+    count++;
+    wave.children[Math.floor(Math.random()*15)].style.height=Math.random()*30+5+'px';
+    if(count>20){
+      clearInterval(interval);
+      status.innerText='✅ Analysis Complete!';
+      result.style.opacity='1';
+      result.innerHTML='<b>Bearing Outer Race Fault</b><br><span class=red>● High Risk - '+(90+Math.floor(Math.random()*8))+'%</span><br><span style=font-size:9px;color:#666>AI detected in 3.1s</span>';
+      toast('Fault Detected Successfully!');
+    }
+  },120);
+}
+// عداد متحرك للإحصائيات
+let animated=false;
+window.addEventListener('scroll',()=>{
+  if(!animated && window.scrollY>300){
+    animated=true;
+    let el=document.getElementById('c1');
+    let val=0;
+    let int=setInterval(()=>{
+      val+=2; el.innerText=val.toFixed(1)+'%';
+      if(val>=98.4){clearInterval(int); el.innerText='98.4%'}
+    },30);
+  }
+});
+</script>
+</body>
+</html>
